@@ -164,7 +164,6 @@ class Model:
     """Wraps a Sequential architecture with training loops and loss calculations."""
     def __init__(self, sequential, loss="MSE"): 
         self.Sequential = sequential
-        self.loss_function_name = loss.lower().strip()
         self.loss, self.loss_derivative = self._choose_loss(self.loss_function_name)
 
     def predict(self, X):
@@ -194,9 +193,9 @@ class Model:
     def _is_simplified_math_combination(self):
         """Checks if the architecture qualifies for a fused backward pass calculation."""
         last_layer = self.Sequential.layers[-1]
-        is_bce_sigmoid = self.loss_function_name in ["bce", "binarycrossentropy"] and isinstance(last_layer, Sigmoid)
-        is_mse_linear = self.loss_function_name == "mse" and isinstance(last_layer, Dense)
-        # Add CCE + Softmax check here later if needed
+        is_bce_sigmoid = self.loss.__name__ == "BCE" and isinstance(last_layer, Sigmoid)
+        is_mse_linear = self.loss.__name__ == "MSE" and isinstance(last_layer, Dense)
+        # To Add CCE + Softmax
         return is_bce_sigmoid or is_mse_linear
 
     def _choose_loss(self, name):
