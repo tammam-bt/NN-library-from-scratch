@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "axiom"
+version = "0.1.0"
+description = "Axiom is a Python library for building and deploying machine learning models."
+authors = [{ name = "BenBettayeb Tammam", email = "tambett10@gmail.com" }]
+dependencies = [
+    "numpy >= 2.4.3",
+]     
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.13.5"
+
+
+[project.urls]
+Homepage = "https://github.com/tammam-bt/Axiom.git"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
