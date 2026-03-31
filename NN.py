@@ -164,7 +164,7 @@ class Model:
     """Wraps a Sequential architecture with training loops and loss calculations."""
     def __init__(self, sequential, loss="MSE"): 
         self.Sequential = sequential
-        self.loss, self.loss_derivative = self._choose_loss(self.loss_function_name)
+        self.loss, self.loss_derivative = self._choose_loss(loss)
 
     def predict(self, X):
         return self.Sequential.forward(X)
@@ -199,6 +199,7 @@ class Model:
         return is_bce_sigmoid or is_mse_linear
 
     def _choose_loss(self, name):
+        name = name.lower().strip()
         if name in ["bce", "binarycrossentropy", "binary_cross_entropy"]:
             return (self.BCE, self.BCE_derivative)
         elif name in ["logcosh", "log_cosh", "log_hyperbolic_cosine"]:
