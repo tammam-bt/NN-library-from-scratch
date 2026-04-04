@@ -2,6 +2,7 @@ import numpy as np
 from .activations import Tanh,Sigmoid,Relu,LeakyRelu,Selu
 from .layers import Dense
 from ..core.losses import _choose_loss
+from ..core.base import BaseEstimator
 
 class Sequential:
     """Manages the stack of neural network layers."""
@@ -43,7 +44,7 @@ class Sequential:
                     current_layer._initialize_weights("lecun")
 
 
-class Model:
+class Model(BaseEstimator):
     """Wraps a Sequential architecture with training loops and loss calculations."""
     def __init__(self, sequential, loss="MSE"): 
         self.Sequential = sequential
