@@ -8,17 +8,21 @@ class LinearRegression(BaseEstimator):
         self.weights = None
         self.bias = 0
     
-    def fit(self, x, y, n_iterations = 1000):
+    def fit(self, x, y, epochs = 1000, with_logging =False):
+        if with_logging:
+            cost_iterations = []
         n_features = x.shape[1]
         self.weights = np.zeros(n_features)
-        cost_iterations = []
-        for i in range(n_iterations):
+        for i in range(epochs):
             dc_dw,dc_db = self.compute_gradient(x,y)
             self.weights -= self.alpha * dc_dw
             self.bias -= self.alpha * dc_db
             print(f"Iteration {i}: cost = {self.cost_function(x,y)}")
-            cost_iterations.append(self.cost_function(x,y))
-        return cost_iterations    
+            if with_logging:
+                cost_iterations.append(self.cost_function(x,y))
+        if with_logging:
+            return cost_iterations    
+        return None
         
     def cost_function(self, x , y):
         return MSE(np.dot(x, self.weights) + self.bias, y)
